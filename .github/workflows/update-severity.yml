@@ -1,0 +1,25 @@
+name: Update Severity
+
+on:
+  issues:
+    types: [opened, labeled, unlabeled]
+
+jobs:
+  update-severity:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out the repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+      
+    - name: Update Severity Column
+      run: node .github/scripts/update-severity.js
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
