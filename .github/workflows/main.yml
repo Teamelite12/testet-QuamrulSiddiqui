@@ -1,0 +1,21 @@
+name: Label Change Workflow
+
+on:
+  issues:
+    types: [labeled, unlabeled]
+
+jobs:
+  check-labels:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check for Severity Labels
+      if: |
+        github.event.label.name == 'Severity-1' ||
+        github.event.label.name == 'Severity-2' ||
+        github.event.label.name == 'Severity-3' ||
+        github.event.label.name == 'Severity-4'
+      run: |
+        echo "Severity label changed: ${{ github.event.label.name }}"
+        curl -X POST -H "Authorization: token ${{ secrets.Gh_TOKEN }}" \
+        -d '{"body":"@quamrulsiddiqui The label ${{ github.event.label.name }} was changed."}' \
+        ${{ github.event.issue.url }}/comments
