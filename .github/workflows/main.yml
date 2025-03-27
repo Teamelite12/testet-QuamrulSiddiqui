@@ -1,4 +1,4 @@
-name: Label Change Workflow
+name: Label Change Comment Bot
 
 on:
   issues:
@@ -16,6 +16,6 @@ jobs:
         github.event.label.name == 'Severity-4'
       run: |
         echo "Severity label removed: ${{ github.event.label.name }}"
-        curl -X POST -H "Authorization: token ${{ secrets.Gh_TOKEN }}" \
-        -d '{"body":"@quamrulsiddiqui The label ${{ github.event.label.name }} was removed."}' \
+        curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+        -d '{"body":"@specific-user The label ${{ github.event.label.name }} was removed."}' \
         ${{ github.event.issue.url }}/comments
