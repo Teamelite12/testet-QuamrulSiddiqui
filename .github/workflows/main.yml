@@ -17,5 +17,6 @@ jobs:
       run: |
         echo "Severity label removed: ${{ github.event.label.name }}"
         curl -X POST -H "Authorization: token ${{ secrets.Gh_TOKEN }}" \
-        -d '{"body":"@quamrulsiddiqui The label ${{ github.event.label.name }} was removed."}' \
+        -H "Accept: application/vnd.github.v3+json" \
+        -d '{"body":"@quamrulsiddiqui The label ${{ github.event.label.name }} was removed by [github-actions[bot]]."}' \
         ${{ github.event.issue.url }}/comments
