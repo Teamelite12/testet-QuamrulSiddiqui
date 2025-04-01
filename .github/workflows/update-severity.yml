@@ -22,4 +22,4 @@ jobs:
     - name: Update Severity Column
       run: node .github/scripts/update-severity.js
       env:
-        GITHUB_TOKEN: ${{ secrets.Gh_TOKEN }}        
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}        
