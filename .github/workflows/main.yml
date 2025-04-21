@@ -7,8 +7,6 @@ on:
 jobs:
   check-labels:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
     steps:
     - name: Check for Severity Labels
       if: |
@@ -18,17 +16,7 @@ jobs:
         github.event.label.name == 'Severity-4'
       run: |
         echo "Severity label removed: ${{ github.event.label.name }}"
-        RESPONSE=$(curl -s -w "%{http_code}" -o response.json -X POST \
-          -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          -d '{"body":"@quamrulsiddiqui As the Severity label ${{ github.event.label.name }} was updated. Please update the same in the Project Board."}' \
-          ${{ github.event.issue.url }}/comments)
-
-        echo "Response Code: $RESPONSE"
-        echo "Response Body:"
-        cat response.json
-
-        if [ "$RESPONSE" -ne 201 ]; then
-          echo "Failed to post comment. HTTP response code: $RESPONSE"
-          exit 1
-        fi
+        curl -X POST -H "Authorization: token ${{ secrets.Gh_TOKEN }}" \
+        -H "Accept: application/vnd.github.v3+json" \
+        -d '{"body":"@quamrulsiddiqui The label ${{ github.event.label.name }} was updated. Please update the same in the Project board by [github-actions[bot]]."}' \
+        ${{ github.event.issue.url }}/comments
